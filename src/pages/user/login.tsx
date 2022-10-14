@@ -8,6 +8,8 @@ import {
   IconButton,
   InputRightElement,
   Text,
+  useColorMode,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
@@ -15,6 +17,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Input } from "../../components/Form/Input";
+import { ThemeSwitch } from "../../components/ThemeSwitch";
 
 import { useSignInForm } from "../../hooks/Form/useSignInForm";
 
@@ -36,18 +39,26 @@ export default function SignIn() {
     formState: { isSubmitting, errors },
   } = useSignInForm();
 
+  const bg = useColorModeValue("whiteAlpha.900", "gray.800");
+  const accent = useColorModeValue("accent.light.400", "accent.dark.400");
+  const colorScheme = useColorModeValue("purple", "pink");
+  const aiFillEyeColor = useColorModeValue("blackAlpha.500", "whiteAlpha.500");
+
   return (
     <>
       <Head>
         <title>Login | Base</title>
       </Head>
       <main>
+        <Box position={"absolute"} top={"1rem"} right={"1rem"}>
+          <ThemeSwitch />
+        </Box>
         <Flex w="100vw" h="100vh" align="center" justify="center">
           <Flex
             as="form"
             w="100%"
             maxW={400}
-            bg="whiteAlpha.900"
+            bg={bg}
             padding={5}
             borderRadius={6}
             flexDir="column"
@@ -55,7 +66,7 @@ export default function SignIn() {
             boxShadow={"xl"}
           >
             <VStack spacing={4}>
-              <Text color={"purple.600"} fontSize={"3xl"} fontWeight="bold">
+              <Text color={accent} fontSize={"3xl"} fontWeight="bold">
                 Base
               </Text>
               <Input
@@ -87,14 +98,14 @@ export default function SignIn() {
                             w={5}
                             h={5}
                             as={AiFillEye}
-                            color={"blackAlpha.500"}
+                            color={aiFillEyeColor}
                           />
                         ) : (
                           <Icon
                             w={5}
                             h={5}
                             as={AiFillEyeInvisible}
-                            color={"blackAlpha.500"}
+                            color={aiFillEyeColor}
                           />
                         )
                       }
@@ -108,20 +119,18 @@ export default function SignIn() {
                   <Checkbox
                     name="remember"
                     mr={"0.2rem"}
-                    colorScheme={"purple"}
+                    colorScheme={colorScheme}
                     checked={rememberMe}
                     onChange={handleRememberMe}
                     defaultChecked={true}
                   />
-                  <Text fontSize={"sm"} color={"gray.400"}>
-                    Lembrar usuário
-                  </Text>
+                  <Text fontSize={"sm"}>Lembrar usuário</Text>
                 </HStack>
-                <Text fontSize={"sm"} color={"gray.400"}>
+                <Text fontSize={"sm"}>
                   <Link href="">Esqueci minha senha?</Link>
                 </Text>
               </HStack>
-              <Text fontSize={"sm"} color={"gray.400"}>
+              <Text fontSize={"sm"}>
                 <Link href={"/user/create"}>Criar conta</Link>
               </Text>
             </VStack>
@@ -129,7 +138,7 @@ export default function SignIn() {
               alignSelf={"flex-end"}
               type="submit"
               width={"fit-content"}
-              colorScheme="purple"
+              colorScheme={colorScheme}
             >
               Login
             </Button>

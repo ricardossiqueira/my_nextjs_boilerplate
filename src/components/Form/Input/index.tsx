@@ -5,6 +5,7 @@ import {
   Input as ChakraInput,
   InputGroup,
   InputProps as ChakraInputProps,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { forwardRef, ForwardRefRenderFunction } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
@@ -31,6 +32,14 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   },
   ref
 ) => {
+  const borderColor = useColorModeValue("blackAlpha.500", "whiteAlpha.500");
+  const focusBorderColor = useColorModeValue(
+    "accent.light.500",
+    "accent.dark.500"
+  );
+  const hoverBg = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
+  const placehoderColor = useColorModeValue("gray.300", "gray.600");
+
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
@@ -41,13 +50,12 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           as={mask && ReactInputMask}
           mask={mask}
           placeholder={placeholder}
-          _placeholder={{ color: "gray.400", fontSize: "md" }}
-          focusBorderColor="purple.500"
-          bg="whiteAlpha.900"
+          _placeholder={{ color: placehoderColor, fontSize: "md" }}
+          focusBorderColor={focusBorderColor}
           variant="outline"
-          borderColor="blackAlpha.500"
+          borderColor={borderColor}
           borderWidth={"1px"}
-          _hover={{ bg: "whiteAlpha.400" }}
+          _hover={{ bg: hoverBg }}
           backgroundColor={"transparent"}
           size="lg"
           ref={ref}

@@ -1,9 +1,4 @@
-import {
-  InputRightElement,
-  IconButton,
-  Icon,
-  AlertIcon,
-} from "@chakra-ui/react";
+import { InputRightElement, Icon } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { AiFillLock } from "react-icons/ai";
 

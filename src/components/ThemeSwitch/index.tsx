@@ -1,17 +1,27 @@
 import { Icon, IconButton, useColorMode } from "@chakra-ui/react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
-export function ThemeSwitch() {
-  const { toggleColorMode, colorMode } = useColorMode();
+interface ThemeSwitchProps {
+  colorMode?: "light" | "dark";
+}
+
+function ThemeSwitch({ colorMode }: ThemeSwitchProps) {
+  const { toggleColorMode, colorMode: chakraColorMode } = useColorMode();
 
   return (
     <IconButton
       aria-label="Toggle theme"
-      icon={<Icon as={colorMode === "dark" ? FaSun : FaMoon} />}
+      icon={
+        <Icon as={(colorMode ?? chakraColorMode) === "dark" ? FaSun : FaMoon} />
+      }
       onClick={toggleColorMode}
       variant="ghost"
-      colorScheme={colorMode === "dark" ? "pink" : "purple"}
+      colorScheme={
+        (colorMode ?? chakraColorMode) === "dark" ? "pink" : "purple"
+      }
       size="lg"
     />
   );
 }
+
+export { ThemeSwitch, type ThemeSwitchProps };

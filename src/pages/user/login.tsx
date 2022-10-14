@@ -19,9 +19,9 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Input } from "../../components/Form/Input";
 import { ThemeSwitch } from "../../components/ThemeSwitch";
 
-import { useSignInForm } from "../../hooks/Form/useSignInForm";
+import { useSignInForm } from "../../hooks/Form/useLoginForm";
 
-export default function SignIn() {
+export default function LoginUser() {
   const [rememberMe, setRememberMe] = useState(true);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
@@ -62,7 +62,7 @@ export default function SignIn() {
             padding={5}
             borderRadius={6}
             flexDir="column"
-            onSubmit={() => {}}
+            onSubmit={handleSubmit(console.log)}
             boxShadow={"xl"}
           >
             <VStack spacing={4}>

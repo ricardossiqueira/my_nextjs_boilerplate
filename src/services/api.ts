@@ -1,27 +1,30 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { IRequestError } from "../interfaces/IRequestError";
 
 import { nookiesKeys } from "../constants/storageKeys";
-import { IRefreshTokenResponse } from "./dtos/IRefreshTokenDTO";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { IRefreshTokenResponse } from "../hooks/Auth/dtos/ILoginDTO";
 
 let cookies = parseCookies();
 let isRefreshing = false;
 let failedRequestsQueue = [];
 
 const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     Authorization: `Bearer ${cookies[nookiesKeys.token]}`,
+    apikey: process.env.NEXT_PUBLIC_API_KEY,
   },
 });
 
 api.interceptors.response.use(
   (response) => response,
-  (error: IRequestError) => {
+  (error: AxiosError<{ code: number; msg: string }>) => {
     if (error.response.status === 401) {
-      if (error.response.data.message === "Token inválido") {
+      if (error.response.data.msg.split(" ")[0].concat() === "Invalid") {
         cookies = parseCookies();
         const refreshToken = cookies[nookiesKeys.refreshToken];
         const originalConfig = error.config;
@@ -30,8 +33,8 @@ api.interceptors.response.use(
           isRefreshing = true;
 
           api
-            .post("/auth/refresh-token", {
-              refreshToken,
+            .post("/auth/v1/token?grant_type=refresh_token", {
+              refresh_token: refreshToken,
             })
             .then((response: AxiosResponse<IRefreshTokenResponse>) => {
               const { token: newToken, refreshToken: newRefreshToken } =
@@ -83,12 +86,8 @@ api.interceptors.response.use(
           });
         });
       } else {
-        // unauthorized error and not token invalid error, logout
-        destroyCookie(undefined, nookiesKeys.token);
-        destroyCookie(undefined, nookiesKeys.refreshToken);
-
-        const router = useRouter();
-        router.push("/");
+        // const { logout } = useContext(AuthContext);
+        // logout();
       }
     }
     // pass error to next error handler

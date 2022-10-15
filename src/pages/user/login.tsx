@@ -8,22 +8,31 @@ import {
   IconButton,
   InputRightElement,
   Text,
-  useColorMode,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
 import { Input } from "../../components/Form/Input";
 import { ThemeSwitch } from "../../components/ThemeSwitch";
-
+import { AuthContext } from "../../contexts/AuthContext";
+import { useLogin } from "../../hooks/Auth/useLogin";
 import { useSignInForm } from "../../hooks/Form/useLoginForm";
 
 export default function LoginUser() {
   const [rememberMe, setRememberMe] = useState(true);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+
+  const { signIn } = useContext(AuthContext);
+  const login = useLogin();
+
+  const bg = useColorModeValue("whiteAlpha.900", "gray.800");
+  const accent = useColorModeValue("accent.light.400", "accent.dark.400");
+  const colorScheme = useColorModeValue("purple", "pink");
+  const aiFillEyeColor = useColorModeValue("blackAlpha.500", "whiteAlpha.500");
 
   const handleRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
@@ -38,11 +47,6 @@ export default function LoginUser() {
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useSignInForm();
-
-  const bg = useColorModeValue("whiteAlpha.900", "gray.800");
-  const accent = useColorModeValue("accent.light.400", "accent.dark.400");
-  const colorScheme = useColorModeValue("purple", "pink");
-  const aiFillEyeColor = useColorModeValue("blackAlpha.500", "whiteAlpha.500");
 
   return (
     <>
@@ -62,7 +66,13 @@ export default function LoginUser() {
             padding={5}
             borderRadius={6}
             flexDir="column"
-            onSubmit={handleSubmit(console.log)}
+            onSubmit={handleSubmit(async (values) => {
+              const res = await login.mutateAsync({
+                email: values.email,
+                password: values.password,
+              });
+              signIn(res.data, rememberMe);
+            })}
             boxShadow={"xl"}
           >
             <VStack spacing={4}>
@@ -139,6 +149,7 @@ export default function LoginUser() {
               type="submit"
               width={"fit-content"}
               colorScheme={colorScheme}
+              isLoading={isSubmitting}
             >
               Login
             </Button>

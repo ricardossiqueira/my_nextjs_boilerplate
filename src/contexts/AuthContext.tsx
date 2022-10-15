@@ -79,6 +79,8 @@ export function AuthProvider({ children }: AuthProviderPropsType) {
     destroyCookie(undefined, nookiesKeys.token);
     destroyCookie(undefined, nookiesKeys.refreshToken);
 
+    localStorage.removeItem(localStorageKeys.refreshToken);
+
     setUser(null);
 
     router.push("/user/login");

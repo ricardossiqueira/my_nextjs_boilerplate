@@ -86,8 +86,8 @@ api.interceptors.response.use(
           });
         });
       } else {
-        // const { logout } = useContext(AuthContext);
-        // logout();
+        const { logout } = useContext(AuthContext);
+        logout();
       }
     }
     // pass error to next error handler

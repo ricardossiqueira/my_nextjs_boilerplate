@@ -1,7 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useRouter } from "next/router";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
-import { IRequestError } from "../interfaces/IRequestError";
+import { parseCookies, setCookie } from "nookies";
 
 import { nookiesKeys } from "../constants/storageKeys";
 import { useContext } from "react";

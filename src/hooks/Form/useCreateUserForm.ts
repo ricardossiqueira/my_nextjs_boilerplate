@@ -3,10 +3,6 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const yupCreateUserFormSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required("Nome obrigatório")
-    .min(5, "Mínimo de 5 caracteres"),
   email: yup.string().required("Email obrigatório").email("Email inválido"),
   password: yup
     .string()

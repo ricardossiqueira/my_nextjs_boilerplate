@@ -17,7 +17,7 @@ import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 import { Input } from "../../components/Form/Input";
-import { ThemeSwitch } from "../../components/ThemeSwitch";
+import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useLogin } from "../../hooks/Auth/useLogin";
 import { useSignInForm } from "../../hooks/Form/useLoginForm";

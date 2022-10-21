@@ -14,7 +14,9 @@ import Link from "next/link";
 import { Input } from "../../components/Form/Input";
 import { Checkbox } from "../../components/Form/Checkbox";
 import { useCreateUserForm } from "../../hooks/Form/useCreateUserForm";
-import { ThemeSwitch } from "../../components/ThemeSwitch";
+import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
+import { useCreateUser } from "../../hooks/Auth/useCreateUser";
+import { Router, useRouter } from "next/router";
 
 export default function CreateUser() {
   const {
@@ -24,6 +26,9 @@ export default function CreateUser() {
     formState: { isSubmitting, errors, isValidating },
   } = useCreateUserForm();
 
+  const createUser = useCreateUser();
+  const router = useRouter();
+
   const bg = useColorModeValue("whiteAlpha.900", "gray.800");
   const accent = useColorModeValue("accent.light.400", "accent.dark.400");
   const colorScheme = useColorModeValue("purple", "pink");
@@ -31,7 +36,7 @@ export default function CreateUser() {
   return (
     <>
       <Head>
-        <title>Criar conta | Mente Sã</title>
+        <title>Criar conta | Base</title>
       </Head>
       <main id="main">
         <Box position={"absolute"} top={"1rem"} right={"1rem"}>
@@ -46,19 +51,18 @@ export default function CreateUser() {
             padding={5}
             borderRadius={6}
             flexDir="column"
-            onSubmit={handleSubmit(console.log)}
+            onSubmit={handleSubmit((values) => {
+              createUser.mutate({
+                email: values.email,
+                password: values.password,
+              });
+            })}
             boxShadow={"xl"}
           >
             <VStack spacing={4}>
               <Text color={accent} fontSize={"3xl"} fontWeight="bold">
                 Base
               </Text>
-              <Input
-                name="name"
-                placeholder="Nome"
-                error={errors.name}
-                {...register("name")}
-              />
               <Input
                 name="email"
                 placeholder="E-mail"
@@ -105,15 +109,23 @@ export default function CreateUser() {
                   </Checkbox>
                 </HStack>
               </HStack>
-              <Button
-                alignSelf={"flex-end"}
-                type="submit"
-                width={"fit-content"}
-                colorScheme={colorScheme}
-                isLoading={isSubmitting || isValidating}
-              >
-                Criar conta
-              </Button>
+              <HStack alignSelf={"flex-end"}>
+                <Button
+                  width={"fit-content"}
+                  variant={"ghost"}
+                  onClick={() => router.back()}
+                >
+                  Voltar
+                </Button>
+                <Button
+                  type="submit"
+                  width={"fit-content"}
+                  colorScheme={colorScheme}
+                  isLoading={isSubmitting || isValidating}
+                >
+                  Criar conta
+                </Button>
+              </HStack>
             </VStack>
           </Flex>
         </Flex>

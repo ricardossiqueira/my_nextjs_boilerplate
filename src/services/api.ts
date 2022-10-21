@@ -1,9 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useRouter } from "next/router";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
-import { IRequestError } from "../interfaces/IRequestError";
+import { parseCookies, setCookie } from "nookies";
 
-import { nookiesKeys } from "../constants/storageKeys";
+import { localStorageKeys, nookiesKeys } from "../constants/storageKeys";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { IRefreshTokenResponse } from "../hooks/Auth/dtos/ILoginDTO";
@@ -20,13 +18,22 @@ const api = axios.create({
   },
 });
 
+// supabase api errors are not patternized; refactor when backend is implemented
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<{ code: number; msg: string }>) => {
     if (error.response.status === 401) {
       if (error.response.data.msg.split(" ")[0].concat() === "Invalid") {
         cookies = parseCookies();
-        const refreshToken = cookies[nookiesKeys.refreshToken];
+
+        let refreshToken = cookies[nookiesKeys.refreshToken];
+
+        if (!refreshToken || refreshToken === "undefined") {
+          refreshToken = localStorage.getItem(localStorageKeys.refreshToken);
+        }
+
+        console.log("refreshToken", refreshToken);
+
         const originalConfig = error.config;
 
         if (!isRefreshing) {

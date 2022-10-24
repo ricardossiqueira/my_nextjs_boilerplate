@@ -50,7 +50,7 @@ export default function LoginUser() {
             signIn(res.data, rememberMe);
           })}
           className="flex justify-center items-center h-screen" action="#">
-          <div className="flex w-3/6 bg-white flex-col space-y-4 shadow-lg p-6 rounded-md">
+          <div className="flex w-96 bg-white flex-col space-y-4 shadow-lg p-6 rounded-md">
             <Input
               name="email"
               placeholder="E-mail"

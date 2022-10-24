@@ -5,7 +5,7 @@ interface ThemeSwitchProps {
   colorMode?: "light" | "dark";
 }
 
-function ThemeSwitch({ colorMode }: ThemeSwitchProps) {
+function ThemeSwitch({ colorMode, ...rest }: ThemeSwitchProps) {
   const { toggleColorMode, colorMode: chakraColorMode } = useColorMode();
 
   return (
@@ -20,6 +20,7 @@ function ThemeSwitch({ colorMode }: ThemeSwitchProps) {
         (colorMode ?? chakraColorMode) === "dark" ? "pink" : "purple"
       }
       size="lg"
+      {...rest}
     />
   );
 }

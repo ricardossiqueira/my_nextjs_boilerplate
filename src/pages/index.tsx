@@ -1,10 +1,9 @@
-import { Icon, IconButton } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { AiOutlineLogout } from "react-icons/ai";
+import { Header } from "../components/Header";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function Index() {
-  const { logout, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     console.log(user);
@@ -12,14 +11,7 @@ export default function Index() {
 
   return (
     <>
-      <IconButton
-        icon={<Icon as={AiOutlineLogout} />}
-        onClick={logout}
-        aria-label="logout"
-        variant="ghost"
-        mt="1rem"
-        ml="1rem"
-      ></IconButton>
+      <Header />
     </>
   );
 }

@@ -1,5 +1,5 @@
-import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast"
 
 import { ILoginDTO, ILoginResponseDTO } from "./dtos/ILoginDTO";
 import { IRequestError } from "../../interfaces/IRequestError";
@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { api } from "../../services/api";
 
 function useLogin() {
-  const toast = useToast();
   const router = useRouter();
   return useMutation(
     async (data: ILoginDTO) => {
@@ -20,21 +19,12 @@ function useLogin() {
     },
     {
       onSuccess: () => {
-        toast({
-          title: "Login realizado com sucesso",
-          status: "success",
-          isClosable: true,
-        });
+        toast("Login realizado com sucesso", {});
         router.push("/");
       },
       onError: (error: IRequestError) => {
         const { error_description } = error.response.data;
-        toast({
-          title: "Erro ao efetuar login",
-          description: error_description,
-          status: "error",
-          isClosable: true,
-        });
+        toast("Erro ao efetuar login", {});
       },
     }
   );

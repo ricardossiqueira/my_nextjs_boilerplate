@@ -1,7 +1,7 @@
-import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast"
 
 import { api } from "../../services/api";
 import {
@@ -11,7 +11,6 @@ import {
 } from "./dtos/ICreateUserDTO";
 
 function useCreateUser() {
-  const toast = useToast();
   const router = useRouter();
   return useMutation(
     async (data: ICreateUserDTO) => {
@@ -23,22 +22,12 @@ function useCreateUser() {
     },
     {
       onSuccess: () => {
-        toast({
-          title: "Conta criada com sucesso",
-          description: "Redirecionando para a página de login",
-          status: "success",
-          isClosable: true,
-        });
+        toast("Conta criada com sucesso", {});
         router.push("/user/login");
       },
       onError: (error: AxiosError<ICreateUserErrorDTO>) => {
         const { msg } = error.response.data;
-        toast({
-          title: "Erro ao criar conta",
-          description: msg,
-          status: "error",
-          isClosable: true,
-        });
+        toast("Erro ao criar conta", {});
       },
     }
   );

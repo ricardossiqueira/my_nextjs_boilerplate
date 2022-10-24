@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Text,
-  VStack,
-  Link as ChakraLink,
-  useColorModeValue,
-} from "@chakra-ui/react";
+
 import Head from "next/head";
 import Link from "next/link";
 
@@ -29,9 +20,6 @@ export default function CreateUser() {
   const createUser = useCreateUser();
   const router = useRouter();
 
-  const bg = useColorModeValue("whiteAlpha.900", "gray.800");
-  const accent = useColorModeValue("accent.light.400", "accent.dark.400");
-  const colorScheme = useColorModeValue("purple", "pink");
 
   return (
     <>
@@ -39,7 +27,7 @@ export default function CreateUser() {
         <title>Criar conta | Base</title>
       </Head>
       <main id="main">
-        <Box position={"absolute"} top={"1rem"} right={"1rem"}>
+        {/* <Box position={"absolute"} top={"1rem"} right={"1rem"}>
           <ThemeSwitch />
         </Box>
         <Flex w="100vw" h="100vh" align="center" justify="center">
@@ -128,7 +116,7 @@ export default function CreateUser() {
               </HStack>
             </VStack>
           </Flex>
-        </Flex>
+        </Flex> */}
       </main>
     </>
   );

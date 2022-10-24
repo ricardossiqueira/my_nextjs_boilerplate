@@ -1,27 +1,30 @@
-import { Icon, IconButton, useColorMode } from "@chakra-ui/react";
+import useTheme from "next-theme";
+import { HTMLAttributes } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
-interface ThemeSwitchProps {
+interface ThemeSwitchProps extends HTMLAttributes<HTMLInputElement> {
   colorMode?: "light" | "dark";
 }
 
-function ThemeSwitch({ colorMode, ...rest }: ThemeSwitchProps) {
-  const { toggleColorMode, colorMode: chakraColorMode } = useColorMode();
+function ThemeSwitch({ colorMode, ...props }: ThemeSwitchProps) {
+  const { theme, setTheme } = useTheme();
+
+  const handleToggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   return (
-    <IconButton
-      aria-label="Toggle theme"
-      icon={
-        <Icon as={(colorMode ?? chakraColorMode) === "dark" ? FaSun : FaMoon} />
+    <button
+      className="p-4 rounded-md bg-transparent hover:bg-opacity-10 [&>svg]:fill-pink-500 hover:bg-pink-500 dark:hover:bg-opacity-10 dark:[&>svg]:fill-indigo-500 dark:hover:bg-indigo-500"
+      onClick={handleToggleTheme}
+      {...props}>
+      {
+        theme === 'dark' ?
+          <FaSun />
+          :
+          <FaMoon />
       }
-      onClick={toggleColorMode}
-      variant="ghost"
-      colorScheme={
-        (colorMode ?? chakraColorMode) === "dark" ? "pink" : "purple"
-      }
-      size="lg"
-      {...rest}
-    />
+    </button>
   );
 }
 

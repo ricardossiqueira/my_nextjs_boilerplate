@@ -1,5 +1,3 @@
-const theme = require("../src/styles/theme.ts")
-
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {

@@ -1,16 +1,3 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  InputRightElement,
-  Text,
-  useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useContext, useState } from "react";
@@ -21,6 +8,8 @@ import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useLogin } from "../../hooks/Auth/useLogin";
 import { useSignInForm } from "../../hooks/Form/useLoginForm";
+import { SubmitButton } from "../../components/Buttons/Submit";
+import { Checkbox } from "../../components/Form/Checkbox";
 
 export default function LoginUser() {
   const [rememberMe, setRememberMe] = useState(true);
@@ -28,11 +17,6 @@ export default function LoginUser() {
 
   const { signIn } = useContext(AuthContext);
   const login = useLogin();
-
-  const bg = useColorModeValue("whiteAlpha.900", "gray.800");
-  const accent = useColorModeValue("accent.light.400", "accent.dark.400");
-  const colorScheme = useColorModeValue("purple", "pink");
-  const aiFillEyeColor = useColorModeValue("blackAlpha.500", "whiteAlpha.500");
 
   const handleRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
@@ -54,7 +38,55 @@ export default function LoginUser() {
         <title>Login | Base</title>
       </Head>
       <main>
-        <Box position={"absolute"} top={"1rem"} right={"1rem"}>
+        <div className="absolute top-4 right-4">
+          <ThemeSwitch />
+        </div>
+        <form
+          onSubmit={handleSubmit(async (values) => {
+            const res = await login.mutateAsync({
+              email: values.email,
+              password: values.password,
+            });
+            signIn(res.data, rememberMe);
+          })}
+          className="flex justify-center items-center h-screen" action="#">
+          <div className="flex w-3/6 bg-white flex-col space-y-4 shadow-lg p-6 rounded-md">
+            <Input
+              name="email"
+              placeholder="E-mail"
+              type="email"
+              error={errors.email}
+              {...register("email")}
+            />
+            <Input
+              name="password"
+              placeholder="Senha"
+              type="password"
+              error={errors.password}
+              {...register("password")}
+            />
+            <Checkbox
+              name="remember"
+              error={errors.remember}
+              {...register("remember")}>Lembar de mim</Checkbox>
+            <div className="flex w-full justify-between">
+              <Link href="#">
+                <a href="#" className="text-sm text-gray-500">
+                  Criar conta
+                </a>
+              </Link>
+              <Link href="#">
+                <a href="#" className="text-sm text-gray-500">
+                  Esqueci minha senha
+                </a>
+              </Link>
+            </div>
+            <SubmitButton type="submit" isLoading={isSubmitting}>Entrar</SubmitButton>
+          </div>
+        </form>
+
+
+        {/* <Box position={"absolute"} top={"1rem"} right={"1rem"}>
           <ThemeSwitch />
         </Box>
         <Flex w="100vw" h="100vh" align="center" justify="center">
@@ -154,7 +186,7 @@ export default function LoginUser() {
               Login
             </Button>
           </Flex>
-        </Flex>
+        </Flex> */}
       </main>
     </>
   );

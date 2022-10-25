@@ -1,7 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
 
 import { Checkbox, CheckboxProps } from ".";
 
@@ -11,17 +8,7 @@ export default {
 } as ComponentMeta<typeof Checkbox>;
 
 const Template: ComponentStory<typeof Checkbox> = (args: CheckboxProps) => {
-  const schema = yup.object().shape({
-    default: yup.boolean(),
-  });
-
-  const methods = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const { control } = methods;
-
-  return <Checkbox control={control} {...args} />;
+  return <Checkbox {...args} />;
 };
 export const NoContent = Template.bind({});
 NoContent.args = {

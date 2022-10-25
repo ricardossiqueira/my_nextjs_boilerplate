@@ -1,15 +1,15 @@
 import { ButtonHTMLAttributes } from "react";
 
-interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ISubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   children: React.ReactNode;
 }
 
-function SubmitButton({ isLoading, children, ...props }: SubmitButtonProps) {
+function SubmitButton({ isLoading, children, ...props }: ISubmitButtonProps) {
   return (
     <button
       disabled={isLoading}
-      className="group relative flex w-full justify-center rounded-md border border-transparent focus:outline-none bg-pink-500 py-2 px-4 text-sm font-medium text-white hover:bg-pink-400 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      className="group relative flex w-fit justify-center rounded-md border border-transparent focus:outline-none bg-pink-500 py-2 px-4 text-sm font-medium text-white hover:bg-pink-400 dark:bg-indigo-500 dark:hover:bg-indigo-400"
       {...props}
     >
       {isLoading ? (
@@ -39,4 +39,4 @@ function SubmitButton({ isLoading, children, ...props }: SubmitButtonProps) {
   );
 }
 
-export { SubmitButton };
+export { SubmitButton, type ISubmitButtonProps };

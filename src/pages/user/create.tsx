@@ -7,7 +7,7 @@ import { Checkbox } from "../../components/Form/Checkbox";
 import { useCreateUserForm } from "../../hooks/Form/useCreateUserForm";
 import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
 import { useCreateUser } from "../../hooks/Auth/useCreateUser";
-import { SubmitButton } from "../../components/Buttons/Submit";
+import { SubmitButton } from "../../components/Buttons/Primary";
 import { SecondaryButton } from "../../components/Buttons/Secondary";
 
 export default function CreateUser() {

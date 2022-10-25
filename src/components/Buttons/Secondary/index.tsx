@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 
-interface SecondaryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ISecondaryButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   children: React.ReactNode;
 }
@@ -9,11 +10,11 @@ function SecondaryButton({
   isLoading,
   children,
   ...props
-}: SecondaryButtonProps) {
+}: ISecondaryButtonProps) {
   return (
     <button
       disabled={isLoading}
-      className="group relative flex w-full justify-center rounded-md border border-transparent hover:bg-pink-500 dark:hover:bg-indigo-500 hover:bg-opacity-10 dark:hover:bg-opacity-10 py-2 px-4 text-sm font-medium outline-none"
+      className="group relative flex w-fit justify-center rounded-md border border-transparent hover:bg-pink-500 dark:hover:bg-indigo-500 hover:bg-opacity-10 dark:hover:bg-opacity-10 py-2 px-4 text-sm font-medium outline-none"
       {...props}
     >
       {isLoading ? (
@@ -43,4 +44,4 @@ function SecondaryButton({
   );
 }
 
-export { SecondaryButton };
+export { SecondaryButton, type ISecondaryButtonProps };

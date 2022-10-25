@@ -18,4 +18,4 @@ function Logout({ ...props }: ILogoutProps) {
   );
 }
 
-export { Logout };
+export { Logout, type ILogoutProps };

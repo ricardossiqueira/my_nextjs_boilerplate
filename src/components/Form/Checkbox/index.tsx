@@ -18,8 +18,8 @@ const CheckboxBase: ForwardRefRenderFunction<
   CheckboxProps
 > = ({ name, error = null, children, ...props }, ref) => {
   return (
-    <>
-      <div className="flex items-center mb-4">
+    <div>
+      <div className="flex items-center">
         <input
           id={name}
           name={name}
@@ -37,7 +37,7 @@ const CheckboxBase: ForwardRefRenderFunction<
           {error.message.toString()}
         </label>
       )}
-    </>
+    </div>
   );
 };
 

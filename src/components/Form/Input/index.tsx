@@ -6,7 +6,7 @@ import {
 } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   placeholder?: string;
@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   children?: ReactNode;
 }
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+const InputBase: ForwardRefRenderFunction<HTMLInputElement, IInputProps> = (
   { name, placeholder, label, children, error = null, ...props },
   ref
 ) => {
@@ -47,5 +47,5 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   );
 };
 
-export type { InputProps };
+export type { IInputProps };
 export const Input = forwardRef(InputBase);

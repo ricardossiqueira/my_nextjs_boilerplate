@@ -8,7 +8,7 @@ import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useLogin } from "../../hooks/Auth/useLogin";
 import { useSignInForm } from "../../hooks/Form/useLoginForm";
-import { SubmitButton } from "../../components/Buttons/Submit";
+import { SubmitButton } from "../../components/Buttons/Primary";
 import { Checkbox } from "../../components/Form/Checkbox";
 
 export default function LoginUser() {

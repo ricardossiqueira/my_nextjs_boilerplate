@@ -23,7 +23,6 @@
     "react-hook-form": "^7.37.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.4.0",
-    "react-input-mask": "^2.0.4",
     "storybook": "^6.5.12",
     "yup": "^0.32.11"
   },

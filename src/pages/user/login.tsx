@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { MouseEventHandler, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 import { Input } from "../../components/Form/Input";

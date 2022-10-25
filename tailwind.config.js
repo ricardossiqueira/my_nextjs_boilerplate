@@ -7,7 +7,13 @@ module.exports = {
   },
   theme: {
     typography: (theme) => ({}),
-    extend: {},
+    extend: {
+      colors: {
+        neutral: {
+          850: '#222222',
+        },
+      },
+    },
   },
   variants: {},
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],

@@ -1,56 +1,46 @@
-
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { Input } from "../../components/Form/Input";
 import { Checkbox } from "../../components/Form/Checkbox";
 import { useCreateUserForm } from "../../hooks/Form/useCreateUserForm";
 import { ThemeSwitch } from "../../components/Buttons/ThemeSwitch";
 import { useCreateUser } from "../../hooks/Auth/useCreateUser";
-import { Router, useRouter } from "next/router";
+import { SubmitButton } from "../../components/Buttons/Submit";
+import { SecondaryButton } from "../../components/Buttons/Secondary";
 
 export default function CreateUser() {
   const {
     register,
     handleSubmit,
-    control,
-    formState: { isSubmitting, errors, isValidating },
+    formState: { isSubmitting, errors },
   } = useCreateUserForm();
 
   const createUser = useCreateUser();
   const router = useRouter();
-
 
   return (
     <>
       <Head>
         <title>Criar conta | Base</title>
       </Head>
-      <main id="main">
-        {/* <Box position={"absolute"} top={"1rem"} right={"1rem"}>
+      <main>
+        <div className="absolute top-4 right-4">
           <ThemeSwitch />
-        </Box>
-        <Flex w="100vw" h="100vh" align="center" justify="center">
-          <Flex
-            as="form"
-            w="100%"
-            maxW={400}
-            bg={bg}
-            padding={5}
-            borderRadius={6}
-            flexDir="column"
-            onSubmit={handleSubmit((values) => {
-              createUser.mutate({
-                email: values.email,
-                password: values.password,
-              });
-            })}
-            boxShadow={"xl"}
-          >
-            <VStack spacing={4}>
-              <Text color={accent} fontSize={"3xl"} fontWeight="bold">
-                Base
-              </Text>
+        </div>
+        <form
+          onSubmit={handleSubmit((values) => {
+            createUser.mutate({
+              email: values.email,
+              password: values.password,
+            });
+          })}
+          className="flex justify-center items-center h-screen"
+          action="#"
+        >
+          <div className="bg-pink-500 dark:bg-indigo-500 flex flex-row rounded-xl items-center">
+            <div className="flex w-80 bg-white dark:bg-neutral-850 flex-col space-y-4 shadow-lg p-6 rounded-xl">
               <Input
                 name="email"
                 placeholder="E-mail"
@@ -71,52 +61,46 @@ export default function CreateUser() {
                 error={errors.passwordConfirm}
                 {...register("passwordConfirm")}
               />
-              <HStack justifyContent={"space-between"} w={"100%"}>
-                <HStack>
-                  <Checkbox
-                    name="termsOfService"
-                    control={control}
-                    error={errors.termsOfService}
-                    rules={{ required: true }}
-                    colorScheme={colorScheme}
-                  >
-                    <Text fontSize={"sm"}>
-                      Aceito os{" "}
-                      <Link href="">
-                        <ChakraLink color={accent} fontWeight={"bold"}>
-                          termos
-                        </ChakraLink>
-                      </Link>{" "}
-                      e{" "}
-                      <Link href="">
-                        <ChakraLink color={accent} fontWeight={"bold"}>
-                          políticas de privacidade
-                        </ChakraLink>
-                      </Link>
-                    </Text>
-                  </Checkbox>
-                </HStack>
-              </HStack>
-              <HStack alignSelf={"flex-end"}>
-                <Button
-                  width={"fit-content"}
-                  variant={"ghost"}
-                  onClick={() => router.back()}
+              <Checkbox
+                name="termsOfService"
+                error={errors.termsOfService}
+                {...register("termsOfService")}
+              >
+                <span className="font-sm [&>a]:text-pink-500 dark:[&>a]:text-indigo-500 [&>a]:underline [&>a]:font-medium">
+                  Aceito os{" "}
+                  <Link href="">
+                    <Link href="#">
+                      <a href="#">termos</a>
+                    </Link>
+                  </Link>{" "}
+                  e{" "}
+                  <Link href="">
+                    <Link href="#">
+                      <a href="#">políticas de privacidade</a>
+                    </Link>
+                  </Link>
+                </span>
+              </Checkbox>
+              <div className="flex w-full justify-between space-x-4">
+                <SecondaryButton
+                  type="button"
+                  onClick={() => router.push("login")}
                 >
                   Voltar
-                </Button>
-                <Button
-                  type="submit"
-                  width={"fit-content"}
-                  colorScheme={colorScheme}
-                  isLoading={isSubmitting || isValidating}
-                >
-                  Criar conta
-                </Button>
-              </HStack>
-            </VStack>
-          </Flex>
-        </Flex> */}
+                </SecondaryButton>
+                <SubmitButton type="submit" isLoading={isSubmitting}>
+                  Criar
+                </SubmitButton>
+              </div>
+            </div>
+            <span
+              className="font-medium text-white text-2xl p-2 cursor-default select-none"
+              style={{ writingMode: "vertical-lr" }}
+            >
+              Base | Nova conta
+            </span>
+          </div>
+        </form>
       </main>
     </>
   );

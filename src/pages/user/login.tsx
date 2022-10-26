@@ -105,9 +105,11 @@ export default function LoginUser() {
                   </a>
                 </Link>
               </div>
-              <SubmitButton type="submit" isLoading={isSubmitting}>
-                Entrar
-              </SubmitButton>
+              <div className="flex self-center">
+                <SubmitButton type="submit" isLoading={isSubmitting}>
+                  Entrar
+                </SubmitButton>
+              </div>
             </div>
             <span
               className="font-medium text-white text-2xl p-2 cursor-default select-none"

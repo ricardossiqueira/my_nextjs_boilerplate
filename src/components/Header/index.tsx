@@ -1,12 +1,95 @@
 import Link from "next/link";
 import { FaHamburger } from "react-icons/fa";
-import { Menu, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 
 import { Logout } from "../Buttons/Logout";
 import { ThemeSwitch } from "../Buttons/ThemeSwitch";
-import { Fragment } from "react";
+import { Fragment, useContext, useState } from "react";
+import { GhostButton } from "../Buttons/Ghost";
+import { AuthContext } from "../../contexts/AuthContext";
 
-export function Header() {
+interface IHamburguerProps {
+  user?: {
+    email?: string;
+  }
+}
+
+function Hamburguer({ user: stories_user }: IHamburguerProps) {
+  const { user, logout } = useContext(AuthContext)
+  const [isOpen, setIsOpen] = useState(false)
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  return (
+    <>
+      <GhostButton
+        type="button"
+        onClick={openModal}
+      >
+        <FaHamburger />
+      </GhostButton>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-30" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-xl bg-white dark:bg-neutral-850 p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-600 flex flex-row items-center"
+                  >
+                    {/* <Image className="p-1 w-10 h-10 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src=""/> */}
+                    <div className="mr-4 overflow-hidden relative w-10 h-10 bg-gray-100 rounded-full dark:bg-neutral-700 dark:bg-opacity-50">
+                      <svg className="absolute -left-1 w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    {stories_user?.email ?? user?.email}
+                  </Dialog.Title>
+                  <div className="flex flex-col space-y-6 mt-6 items-end [&>button]:text-gray-600 [&>button]:font-medium [&>button]:text-lg">
+                    <button className="hover:text-pink-500">Option 1</button>
+                    <button className="hover:text-pink-500">Option 2</button>
+                    <button className="hover:text-pink-500">Option 3</button>
+                    <hr className="border-b border-t-0 flex w-full" />
+                  </div>
+                  <GhostButton onClick={logout} type="button">Logout</GhostButton>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
+  )
+}
+
+
+function Header() {
   return (
     <>
       <header className="sticky top-0 z-30 backdrop-blur-sm">
@@ -20,54 +103,10 @@ export function Header() {
                 <Link href="#">Page C</Link>
               </li>
             </ul>
-            <Logout />
+            <Logout className="max-lg:hidden" />
             <ThemeSwitch />
             <div className="hidden max-lg:flex space-x-4 items-center">
-              <Menu as="div" className="relative inline-block text-left">
-                <Menu.Button className="p-4 rounded-md bg-transparent hover:bg-opacity-10 [&>svg]:fill-pink-500 hover:bg-pink-500 dark:hover:bg-opacity-10 dark:[&>svg]:fill-indigo-500 dark:hover:bg-indigo-500">
-                  <FaHamburger />
-                </Menu.Button>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="px-1 py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            className={`${
-                              active
-                                ? "bg-violet-500 text-white"
-                                : "text-gray-900"
-                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          >
-                            Account settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            className={`${
-                              active
-                                ? "bg-violet-500 text-white"
-                                : "text-gray-900"
-                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          >
-                            Documentation
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+              <Hamburguer />
             </div>
           </div>
         </nav>
@@ -75,3 +114,5 @@ export function Header() {
     </>
   );
 }
+
+export { Hamburguer, type IHamburguerProps, Header };

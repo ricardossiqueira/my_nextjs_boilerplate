@@ -1,6 +1,6 @@
-import { HTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
-interface IGhostButtonProps extends HTMLAttributes<HTMLInputElement> {
+interface IGhostButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 

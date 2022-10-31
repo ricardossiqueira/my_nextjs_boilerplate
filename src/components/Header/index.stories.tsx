@@ -1,19 +1,22 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Hamburguer, IHamburguerProps } from ".";
+import { Header, IHeaderProps } from ".";
 
 export default {
-  title: "Header/Hamburguer",
-  component: Hamburguer,
-} as ComponentMeta<typeof Hamburguer>;
+  title: "Header/Default",
+  component: Header,
+} as ComponentMeta<typeof Header>;
 
-const Template: ComponentStory<typeof Hamburguer> = (args: IHamburguerProps) => {
-  return <Hamburguer {...args} />;
+const Template: ComponentStory<typeof Header> = (args: IHeaderProps) => {
+  return <Header {...args} />;
 };
 
 export const Default = Template.bind({});
 Default.args = {
-  user: {
+  nextRouter: {
+    path: "/#",
+    asPath: "/#",
+  }, user: {
     email: "john@doe.com"
   }
 };

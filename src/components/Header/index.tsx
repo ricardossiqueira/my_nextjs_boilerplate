@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { FaHamburger } from "react-icons/fa";
+import { Fragment, useContext, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { FaHamburger } from "react-icons/fa";
 
 import { Logout } from "../Buttons/Logout";
 import { ThemeSwitch } from "../Buttons/ThemeSwitch";
-import { Fragment, useContext, useState } from "react";
 import { GhostButton } from "../Buttons/Ghost";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ActiveLink } from "./ActiveLink";
 
 interface IHamburguerProps {
   user?: {
@@ -72,9 +72,21 @@ function Hamburguer({ user: stories_user }: IHamburguerProps) {
                     {stories_user?.email ?? user?.email}
                   </Dialog.Title>
                   <div className="flex flex-col space-y-6 mt-6 items-end [&>button]:text-gray-600 [&>button]:font-medium [&>button]:text-lg">
-                    <button className="hover:text-pink-500">Option 1</button>
-                    <button className="hover:text-pink-500">Option 2</button>
-                    <button className="hover:text-pink-500">Option 3</button>
+                    <button onClick={closeModal}>
+                      <ActiveLink href="/#">
+                        Option 1
+                      </ActiveLink>
+                    </button>
+                    <button onClick={closeModal}>
+                      <ActiveLink href="/##">
+                        Option 2
+                      </ActiveLink>
+                    </button>
+                    <button onClick={closeModal}>
+                      <ActiveLink href="/###">
+                        Option 3
+                      </ActiveLink>
+                    </button>
                     <hr className="border-b border-t-0 flex w-full" />
                   </div>
                   <GhostButton onClick={logout} type="button">Logout</GhostButton>
@@ -88,8 +100,9 @@ function Hamburguer({ user: stories_user }: IHamburguerProps) {
   )
 }
 
+interface IHeaderProps extends IHamburguerProps { }
 
-function Header() {
+function Header({ user }: IHeaderProps) {
   return (
     <>
       <header className="sticky top-0 z-30 backdrop-blur-sm">
@@ -97,16 +110,16 @@ function Header() {
           <div className="flex items-center">logo</div>
           <div className="flex space-x-4 items-center">
             <ul className="max-lg:hidden">
-              <li className="flex space-x-8 mr-4 [&>a]:font-medium [&>a]:text-gray-600 [&>a]:dark:text-gray-300">
-                <Link href="#">Page A</Link>
-                <Link href="#">Page B</Link>
-                <Link href="#">Page C</Link>
+              <li className="flex space-x-8 mr-4">
+                <ActiveLink href="/#">Page A</ActiveLink>
+                <ActiveLink href="/##">Page B</ActiveLink>
+                <ActiveLink href="/###">Page C</ActiveLink>
               </li>
             </ul>
             <Logout className="max-lg:hidden" />
             <ThemeSwitch />
             <div className="hidden max-lg:flex space-x-4 items-center">
-              <Hamburguer />
+              <Hamburguer user={user} />
             </div>
           </div>
         </nav>
@@ -115,4 +128,4 @@ function Header() {
   );
 }
 
-export { Hamburguer, type IHamburguerProps, Header };
+export { Hamburguer, type IHamburguerProps, Header, type IHeaderProps };
